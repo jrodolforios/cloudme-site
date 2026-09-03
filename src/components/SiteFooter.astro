@@ -3,6 +3,7 @@ import type { Locale } from '@/config/site';
 import type { FooterContent, NavContent } from '@/i18n/types';
 import { contact, legal, brand } from '@/config/site';
 import { routeMap, alternateLocalePath } from '@/i18n';
+import { withBase } from '@/lib/paths';
 
 interface Props {
   locale: Locale;
@@ -12,16 +13,16 @@ interface Props {
 
 const { locale, content, nav } = Astro.props;
 const year = new Date().getFullYear();
-const resumeHref = routeMap.resume[locale];
-const privacyHref = routeMap.privacy[locale];
-const termsHref = routeMap.terms[locale];
-const otherLocaleHomeHref = alternateLocalePath('home', locale);
+const resumeHref = withBase(routeMap.resume[locale]);
+const privacyHref = withBase(routeMap.privacy[locale]);
+const termsHref = withBase(routeMap.terms[locale]);
+const otherLocaleHomeHref = withBase(alternateLocalePath('home', locale));
 ---
 
 <footer class="site-footer">
   <div class="container site-footer__grid">
     <div>
-      <img src="/brand/logo-compact.svg" width="140" height="40" alt="CloudMe" loading="lazy" />
+      <img src={withBase('/brand/logo-compact.svg')} width="140" height="40" alt="CloudMe" loading="lazy" />
       <p class="site-footer__tagline">{content.tagline}</p>
     </div>
 
@@ -47,10 +48,10 @@ const otherLocaleHomeHref = alternateLocalePath('home', locale);
       <h3>{content.languagesTitle}</h3>
       <ul>
         <li>
-          <a href={locale === 'pt' ? '/' : '/en/'} aria-current={locale === 'pt' ? 'page' : undefined}>Português</a>
+          <a href={withBase(locale === 'pt' ? '/' : '/en/')} aria-current={locale === 'pt' ? 'page' : undefined}>Português</a>
         </li>
         <li>
-          <a href={locale === 'en' ? '/en/' : otherLocaleHomeHref} aria-current={locale === 'en' ? 'page' : undefined}>English</a>
+          <a href={locale === 'en' ? withBase('/en/') : otherLocaleHomeHref} aria-current={locale === 'en' ? 'page' : undefined}>English</a>
         </li>
       </ul>
     </div>

@@ -1,12 +1,15 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { basePath, siteOrigin } from './src/config/site';
 
-// Domínio público provisório: substitua por `site.cloudme.com.br` (ou domínio final)
-// antes da publicação. Usado para URLs canônicas, sitemap e Open Graph.
-const SITE_URL = 'https://www.cloudme.com.br';
+// Publicação atual: GitHub Pages de projeto em
+// https://jrodolforios.github.io/cloudme-site/
+// `site` recebe apenas a origem e `base` o prefixo do repositório; ambos vêm
+// de `src/config/site.ts` para que os links internos usem o mesmo valor.
 
 export default defineConfig({
-  site: SITE_URL,
+  site: siteOrigin,
+  base: basePath,
   trailingSlash: 'always',
   integrations: [sitemap()],
   build: {

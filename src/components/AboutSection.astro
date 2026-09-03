@@ -1,5 +1,6 @@
 ---
 import type { AboutContent } from '@/i18n/types';
+import { withBase } from '@/lib/paths';
 
 interface Props {
   content: AboutContent;
@@ -17,7 +18,7 @@ const { content, resumeHref } = Astro.props;
         substituição pela foto profissional real de Rodolfo Rios.
       -->
       <img
-        src="/brand/rodolfo-placeholder.svg"
+        src={withBase('/brand/rodolfo-placeholder.svg')}
         width="320"
         height="320"
         alt="Retrato ilustrativo de Rodolfo Rios"

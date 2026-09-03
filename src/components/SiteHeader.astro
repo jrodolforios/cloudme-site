@@ -2,6 +2,7 @@
 import type { Locale } from '@/config/site';
 import type { NavContent } from '@/i18n/types';
 import { alternateLocalePath } from '@/i18n';
+import { withBase } from '@/lib/paths';
 
 interface Props {
   locale: Locale;
@@ -10,13 +11,13 @@ interface Props {
 }
 
 const { locale, nav, ctaHref } = Astro.props;
-const altHref = alternateLocalePath('home', locale);
+const altHref = withBase(alternateLocalePath('home', locale));
 ---
 
 <header class="site-header">
   <div class="container site-header__inner">
-    <a class="site-header__brand" href={locale === 'pt' ? '/' : '/en/'} aria-label="CloudMe">
-      <img src="/brand/logo-compact.svg" width="132" height="38" alt="" loading="eager" />
+    <a class="site-header__brand" href={withBase(locale === 'pt' ? '/' : '/en/')} aria-label="CloudMe">
+      <img src={withBase('/brand/logo-compact.svg')} width="132" height="38" alt="" loading="eager" />
       <span class="visually-hidden">CloudMe — {locale === 'pt' ? 'por Rodolfo Rios' : 'by Rodolfo Rios'}</span>
     </a>
 
