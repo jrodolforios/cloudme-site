@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import { basePath, siteOrigin } from './src/config/site';
+import { basePath, siteOrigin } from './src/config/site.ts';
 
 // Publicação atual: GitHub Pages de projeto em
 // https://jrodolforios.github.io/cloudme-site/

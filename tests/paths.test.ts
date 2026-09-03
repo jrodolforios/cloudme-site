@@ -1,11 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { withBase } from '@/lib/paths';
 import { routeMap } from '@/i18n';
+import { basePath } from '@/config/site';
 
 describe('withBase', () => {
   it('prefixes absolute paths with the GitHub Pages base', () => {
     expect(withBase('/rodolfo/', '/cloudme-site/')).toBe('/cloudme-site/rodolfo/');
     expect(withBase('/favicon.svg', '/cloudme-site')).toBe('/cloudme-site/favicon.svg');
+  });
+
+  it('uses the configured base path by default', () => {
+    expect(withBase('/en/')).toBe(`${basePath}/en/`);
   });
 
   it('keeps paths unchanged when the site is served from the root', () => {

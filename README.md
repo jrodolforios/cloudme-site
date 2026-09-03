@@ -228,7 +228,10 @@ Todo o conteúdo textual vive em dois dicionários TypeScript tipados:
 - Títulos, descriptions, `canonical` e `hreflang` (`pt-BR`, `en`,
   `x-default`) por página, centralizados em `BaseLayout.astro`.
 - Open Graph e Twitter Cards.
-- `robots.txt` e `sitemap-index.xml` (gerado por `@astrojs/sitemap`).
+- `robots.txt` e `sitemap-index.xml` (gerado por `@astrojs/sitemap`). Em um
+  Pages de projeto o `robots.txt` fica em `/cloudme-site/robots.txt`, que os
+  buscadores não consideram (apenas o da raiz do domínio vale); envie o
+  sitemap pelo Google Search Console enquanto não houver domínio próprio.
 - Dados estruturados JSON-LD `ProfessionalService` e `Person`
   (`src/lib/structuredData.ts`), com apenas propriedades reais — nenhum
   dado (avaliações, números, endereços) foi inventado.
