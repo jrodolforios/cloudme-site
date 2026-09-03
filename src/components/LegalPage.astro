@@ -1,0 +1,114 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { routeMap } from '@/i18n';
+import { brand } from '@/config/site';
+import type { LegalContent } from '@/i18n/types';
+import type { Locale } from '@/config/site';
+
+interface Props {
+  locale: Locale;
+  content: LegalContent;
+  routeKey: 'privacy' | 'terms';
+}
+
+const { locale, content, routeKey } = Astro.props;
+const homeHref = routeMap.home[locale];
+
+// Data de publicação real (data do build), exibida de forma transparente
+// em vez de uma data futura arbitrária.
+const publishedAt = new Date();
+const formattedDate = publishedAt.toLocaleDateString(locale === 'pt' ? 'pt-BR' : 'en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  locale={locale}
+  title={content.meta.title}
+  description={content.meta.description}
+  routeKey={routeKey}
+>
+  <header class="legal-header">
+    <div class="container">
+      <a class="legal-header__back" href={homeHref}>&larr; {content.backToSite}</a>
+      <span class="legal-header__brand">{brand.name}</span>
+    </div>
+  </header>
+
+  <main id="main-content" class="legal">
+    <div class="container legal__content">
+      <h1>{content.title}</h1>
+      <p class="legal__updated">{content.lastUpdatedLabel}: {formattedDate}</p>
+      <p class="legal__intro">{content.intro}</p>
+
+      {content.sections.map((section) => (
+        <section class="legal__section">
+          <h2>{section.heading}</h2>
+          {section.body.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </section>
+      ))}
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .legal-header {
+    border-bottom: 1px solid rgba(10, 30, 70, 0.1);
+    padding-block: var(--space-2);
+  }
+
+  .legal-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .legal-header__back {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--color-cloudme-blue);
+  }
+
+  .legal-header__brand {
+    font-weight: 700;
+    color: var(--text-on-light-muted);
+  }
+
+  .legal {
+    padding-block: var(--space-6);
+  }
+
+  .legal__content {
+    max-width: 48rem;
+  }
+
+  .legal__updated {
+    color: var(--text-on-light-muted);
+    font-size: 0.9rem;
+    margin-block-start: var(--space-1);
+  }
+
+  .legal__intro {
+    margin-block-start: var(--space-3);
+    color: var(--text-on-light-muted);
+  }
+
+  .legal__section {
+    margin-block-start: var(--space-5);
+  }
+
+  .legal__section h2 {
+    font-size: 1.2rem;
+    color: var(--color-cloudme-blue);
+    margin-block-end: var(--space-1);
+  }
+
+  .legal__section p {
+    margin-block-start: var(--space-1);
+    color: var(--text-on-light-muted);
+  }
+</style>

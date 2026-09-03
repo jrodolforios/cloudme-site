@@ -1,0 +1,94 @@
+---
+import type { ProblemContent } from '@/i18n/types';
+
+interface Props {
+  content: ProblemContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="section problem">
+  <div class="container problem__grid">
+    <div class="reveal">
+      <h2 class="section-title">{content.title}</h2>
+      <p class="problem__intro">{content.intro}</p>
+      <p class="problem__label">{content.opportunitiesLabel}</p>
+      <ul class="problem__list">
+        {content.opportunities.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </div>
+    <blockquote class="problem__quote reveal">
+      <p>&ldquo;{content.quote}&rdquo;</p>
+      <footer>— {content.quoteAuthor}</footer>
+    </blockquote>
+  </div>
+</section>
+
+<style>
+  .problem__grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 960px) {
+    .problem__grid {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: start;
+    }
+  }
+
+  .problem__intro {
+    margin-block-start: var(--space-3);
+    max-width: 56ch;
+    color: var(--text-on-light-muted);
+    font-size: 1.05rem;
+  }
+
+  .problem__label {
+    margin-block-start: var(--space-4);
+    font-weight: 700;
+  }
+
+  .problem__list {
+    list-style: none;
+    margin-block-start: var(--space-2);
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .problem__list li {
+    padding-inline-start: var(--space-3);
+    position: relative;
+  }
+
+  .problem__list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--color-cyan);
+  }
+
+  .problem__quote {
+    background: var(--surface-light-alt);
+    border-left: 4px solid var(--color-cloudme-blue);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    margin: 0;
+    font-size: 1.15rem;
+    color: var(--text-on-light);
+  }
+
+  .problem__quote footer {
+    margin-block-start: var(--space-2);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-on-light-muted);
+  }
+</style>

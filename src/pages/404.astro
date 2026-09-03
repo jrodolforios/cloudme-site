@@ -1,0 +1,66 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getDictionary } from '@/i18n';
+import { defaultLocale } from '@/config/site';
+
+// A página 404 é servida sem prefixo de idioma; usamos o idioma padrão
+// (português) com uma indicação também em inglês para o texto principal.
+const dict = getDictionary(defaultLocale);
+const { notFound } = dict;
+const enDict = getDictionary('en');
+---
+
+<BaseLayout
+  locale={defaultLocale}
+  title={notFound.meta.title}
+  description={notFound.description}
+  routeKey="home"
+  noIndex={true}
+>
+  <main id="main-content" class="not-found">
+    <div class="container">
+      <img src="/brand/symbol.svg" width="64" height="64" alt="" loading="eager" />
+      <h1>{notFound.title}</h1>
+      <p>{notFound.description}</p>
+      <a class="cta-button cta-button--primary tap-target" href="/">{notFound.cta}</a>
+
+      <hr />
+
+      <h2>{enDict.notFound.title}</h2>
+      <p>{enDict.notFound.description}</p>
+      <a class="cta-button cta-button--secondary tap-target" href="/en/">{enDict.notFound.cta}</a>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .not-found .container {
+    max-width: 36rem;
+    text-align: center;
+    display: grid;
+    gap: var(--space-2);
+    justify-items: center;
+  }
+
+  .not-found h1 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  }
+
+  .not-found p {
+    color: var(--text-on-light-muted);
+  }
+
+  .not-found hr {
+    width: 100%;
+    max-width: 12rem;
+    border: none;
+    border-top: 1px solid rgba(10, 30, 70, 0.15);
+    margin-block: var(--space-3);
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+import type { ServicesContent } from '@/i18n/types';
+
+interface Props {
+  content: ServicesContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="section" id="solutions">
+  <div class="container">
+    <h2 class="section-title reveal">{content.title}</h2>
+    <ul class="services__grid">
+      {content.items.map((item) => (
+        <li class="services__card reveal">
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .services__grid {
+    list-style: none;
+    margin-block-start: var(--space-5);
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 720px) {
+    .services__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .services__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .services__card {
+    background: var(--surface-light-alt);
+    border-radius: var(--radius-md);
+    padding: var(--space-4);
+    border-top: 3px solid var(--color-cloudme-blue);
+  }
+
+  .services__card h3 {
+    font-size: 1.15rem;
+    margin-block-end: var(--space-1);
+  }
+
+  .services__card p {
+    color: var(--text-on-light-muted);
+  }
+</style>

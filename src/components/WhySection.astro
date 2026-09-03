@@ -1,0 +1,54 @@
+---
+import type { WhyContent } from '@/i18n/types';
+
+interface Props {
+  content: WhyContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title reveal">{content.title}</h2>
+    <ul class="why__grid">
+      {content.items.map((item) => (
+        <li class="why__card reveal">
+          <h3>{item.title}</h3>
+          <p>{item.description}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .why__grid {
+    list-style: none;
+    margin-block-start: var(--space-5);
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  @media (min-width: 720px) {
+    .why__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .why__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .why__card h3 {
+    font-size: 1.1rem;
+    color: var(--color-cloudme-blue);
+    margin-block-end: var(--space-1);
+  }
+
+  .why__card p {
+    color: var(--text-on-light-muted);
+  }
+</style>
