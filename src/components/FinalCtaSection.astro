@@ -1,0 +1,106 @@
+---
+import type { FinalCtaContent, SchedulingContent } from '@/i18n/types';
+import { scheduling, contact, buildWhatsappLink } from '@/config/site';
+import type { Locale } from '@/config/site';
+
+interface Props {
+  locale: Locale;
+  content: FinalCtaContent;
+  schedulingContent: SchedulingContent;
+}
+
+const { locale, content, schedulingContent } = Astro.props;
+const whatsappHref = buildWhatsappLink(locale);
+const mailHref = `mailto:${contact.commercialEmail}`;
+---
+
+<section class="section section--dark" id="scheduling">
+  <div class="container final-cta">
+    <div class="reveal">
+      <h2 class="section-title">{content.title}</h2>
+      <p class="final-cta__description">{content.description}</p>
+    </div>
+
+    <div class="final-cta__panel reveal">
+      {scheduling.eventUrl ? (
+        <a class="cta-button cta-button--on-dark tap-target" href={scheduling.eventUrl} target="_blank" rel="noopener noreferrer">
+          {content.ctaPrimary}
+        </a>
+      ) : (
+        <div class="scheduling-pending">
+          <p class="scheduling-pending__title">{schedulingContent.pendingTitle}</p>
+          <p class="scheduling-pending__description">{schedulingContent.pendingDescription}</p>
+          <ul class="scheduling-pending__details">
+            <li>{schedulingContent.eventDuration}</li>
+            <li>{schedulingContent.notice}</li>
+          </ul>
+          <div class="final-cta__actions">
+            <a class="cta-button cta-button--on-dark tap-target" href={mailHref}>{schedulingContent.fallbackEmail}</a>
+            <a class="cta-button cta-button--ghost-on-dark tap-target" href={whatsappHref} target="_blank" rel="noopener noreferrer">
+              {schedulingContent.fallbackWhatsapp}
+            </a>
+          </div>
+        </div>
+      )}
+      <p class="final-cta__note">{content.note}</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta {
+    display: grid;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  @media (min-width: 860px) {
+    .final-cta {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .final-cta__description {
+    margin-block-start: var(--space-3);
+    color: var(--text-on-dark-muted);
+    max-width: 48ch;
+  }
+
+  .final-cta__panel {
+    background: var(--surface-dark-alt);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+  }
+
+  .scheduling-pending__title {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+
+  .scheduling-pending__description {
+    margin-block-start: var(--space-1);
+    color: var(--text-on-dark-muted);
+  }
+
+  .scheduling-pending__details {
+    list-style: none;
+    margin-block-start: var(--space-2);
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    color: var(--text-on-dark-muted);
+  }
+
+  .final-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-block-start: var(--space-3);
+  }
+
+  .final-cta__note {
+    margin-block-start: var(--space-3);
+    font-size: 0.9rem;
+    color: var(--text-on-dark-muted);
+  }
+</style>

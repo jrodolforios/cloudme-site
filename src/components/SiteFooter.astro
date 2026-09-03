@@ -1,0 +1,132 @@
+---
+import type { Locale } from '@/config/site';
+import type { FooterContent, NavContent } from '@/i18n/types';
+import { contact, legal, brand } from '@/config/site';
+import { routeMap, alternateLocalePath } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+  content: FooterContent;
+  nav: NavContent;
+}
+
+const { locale, content, nav } = Astro.props;
+const year = new Date().getFullYear();
+const resumeHref = routeMap.resume[locale];
+const privacyHref = routeMap.privacy[locale];
+const termsHref = routeMap.terms[locale];
+const otherLocaleHomeHref = alternateLocalePath('home', locale);
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div>
+      <img src="/brand/logo-compact.svg" width="140" height="40" alt="CloudMe" loading="lazy" />
+      <p class="site-footer__tagline">{content.tagline}</p>
+    </div>
+
+    <nav aria-label={content.linksTitle}>
+      <h3>{content.linksTitle}</h3>
+      <ul>
+        <li><a href="#solutions">{nav.solutions}</a></li>
+        <li><a href="#how-it-works">{nav.howItWorks}</a></li>
+        <li><a href="#about">{nav.about}</a></li>
+        <li><a href={resumeHref}>{content.resumeLink}</a></li>
+      </ul>
+    </nav>
+
+    <nav aria-label={content.legalTitle}>
+      <h3>{content.legalTitle}</h3>
+      <ul>
+        <li><a href={privacyHref}>{content.privacyLink}</a></li>
+        <li><a href={termsHref}>{content.termsLink}</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <h3>{content.languagesTitle}</h3>
+      <ul>
+        <li>
+          <a href={locale === 'pt' ? '/' : '/en/'} aria-current={locale === 'pt' ? 'page' : undefined}>Português</a>
+        </li>
+        <li>
+          <a href={locale === 'en' ? '/en/' : otherLocaleHomeHref} aria-current={locale === 'en' ? 'page' : undefined}>English</a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>{content.contactTitle}</h3>
+      <ul>
+        <li><a href={`mailto:${contact.commercialEmail}`}>{contact.commercialEmail}</a></li>
+        <li><a href={`mailto:${contact.generalEmail}`}>{contact.generalEmail}</a></li>
+        <li>{contact.whatsappDisplay}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container site-footer__legal">
+    <p>
+      {brand.name} — {legal.companyName} · CNPJ {legal.cnpj}
+    </p>
+    <p>© {year} {brand.name}. {content.rightsReserved}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--surface-dark);
+    color: var(--text-on-dark-muted);
+    padding-block: var(--space-6) var(--space-4);
+  }
+
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 720px) {
+    .site-footer__grid {
+      grid-template-columns: 1.4fr repeat(4, 1fr);
+    }
+  }
+
+  .site-footer h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-on-dark);
+    margin-block-end: var(--space-2);
+  }
+
+  .site-footer ul {
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .site-footer a {
+    text-decoration: none;
+    color: var(--text-on-dark-muted);
+  }
+
+  .site-footer a:hover {
+    color: var(--text-on-dark);
+  }
+
+  .site-footer__tagline {
+    margin-block-start: var(--space-2);
+    max-width: 28ch;
+  }
+
+  .site-footer__legal {
+    margin-block-start: var(--space-6);
+    padding-block-start: var(--space-3);
+    border-top: 1px solid rgba(244, 247, 251, 0.12);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-1);
+    font-size: 0.8rem;
+  }
+</style>

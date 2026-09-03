@@ -1,0 +1,66 @@
+---
+import type { FaqContent } from '@/i18n/types';
+
+interface Props {
+  content: FaqContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="section" id="faq">
+  <div class="container">
+    <h2 class="section-title reveal">{content.title}</h2>
+    <div class="faq__list reveal">
+      {content.items.map((item, index) => (
+        <details class="faq__item" name="faq" open={index === 0}>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq__list {
+    margin-block-start: var(--space-4);
+    max-width: 64rem;
+    border-top: 1px solid rgba(10, 30, 70, 0.12);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid rgba(10, 30, 70, 0.12);
+    padding-block: var(--space-2);
+  }
+
+  .faq__item summary {
+    cursor: pointer;
+    font-weight: 700;
+    padding-block: var(--space-1);
+    list-style: none;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__item summary::before {
+    content: '+';
+    display: inline-block;
+    width: 1.2em;
+    color: var(--color-cloudme-blue);
+    font-weight: 700;
+  }
+
+  .faq__item[open] summary::before {
+    content: '−';
+  }
+
+  .faq__item p {
+    margin-block-start: var(--space-1);
+    padding-inline-start: 1.2em;
+    color: var(--text-on-light-muted);
+    max-width: 60ch;
+  }
+</style>

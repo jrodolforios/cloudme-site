@@ -1,0 +1,230 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: var(--font-size-root);
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  line-height: var(--line-height-base);
+  color: var(--text-on-light);
+  background: var(--surface-light);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: var(--line-height-tight);
+  font-weight: 700;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+/* Foco visível consistente em toda a aplicação */
+:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Skip link — visível apenas ao receber foco via teclado */
+.skip-link {
+  position: absolute;
+  left: var(--space-2);
+  top: -100px;
+  background: var(--color-cloudme-blue);
+  color: var(--text-on-dark);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  z-index: 1000;
+  transition: top var(--duration-fast) var(--ease-standard);
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+  padding-inline: var(--content-padding-inline);
+}
+
+/* Revelação por rolagem — desativada por padrão, e sempre desativada
+   quando o usuário prefere menos movimento ou quando JS falha
+   (o estado inicial via CSS já mostra o conteúdo, o JS apenas anima). */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity var(--duration-slow) var(--ease-standard),
+      transform var(--duration-slow) var(--ease-standard);
+  }
+
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Utilitário para botões grandes o suficiente para toque confortável */
+.tap-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Botões de chamada para ação, compartilhados entre seções */
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition:
+    transform var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+  border: 2px solid transparent;
+}
+
+.cta-button--primary {
+  background: var(--color-cloudme-blue);
+  color: var(--text-on-dark);
+  box-shadow: var(--shadow-soft);
+}
+
+.cta-button--primary:hover {
+  transform: translateY(-2px);
+  background: var(--color-cloudme-blue-strong);
+}
+
+.cta-button--secondary {
+  background: transparent;
+  color: var(--color-cloudme-blue);
+  border-color: currentColor;
+}
+
+.cta-button--secondary:hover {
+  background: rgba(11, 61, 145, 0.08);
+}
+
+.cta-button--on-dark {
+  background: var(--color-cyan);
+  color: var(--color-deep-blue);
+}
+
+.cta-button--on-dark:hover {
+  transform: translateY(-2px);
+  background: var(--color-cyan-soft);
+}
+
+.cta-button--ghost-on-dark {
+  background: transparent;
+  color: var(--text-on-dark);
+  border-color: rgba(244, 247, 251, 0.4);
+}
+
+.cta-button--ghost-on-dark:hover {
+  background: rgba(244, 247, 251, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta-button:hover {
+    transform: none;
+  }
+}
+
+.section {
+  padding-block: var(--space-7);
+}
+
+.section--dark {
+  background: var(--surface-dark);
+  color: var(--text-on-dark);
+}
+
+.section--alt {
+  background: var(--surface-light-alt);
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-cloudme-blue);
+  margin-bottom: var(--space-2);
+}
+
+.section--dark .eyebrow {
+  color: var(--color-cyan);
+}
+
+.section-title {
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  max-width: 40rem;
+}

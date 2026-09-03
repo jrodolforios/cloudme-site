@@ -1,0 +1,51 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
+import HeroSection from '@/components/HeroSection.astro';
+import ProblemSection from '@/components/ProblemSection.astro';
+import ChallengeExplorer from '@/components/ChallengeExplorer.astro';
+import ServicesSection from '@/components/ServicesSection.astro';
+import MethodSection from '@/components/MethodSection.astro';
+import ResponsibleAiSection from '@/components/ResponsibleAiSection.astro';
+import WhySection from '@/components/WhySection.astro';
+import AboutSection from '@/components/AboutSection.astro';
+import FaqSection from '@/components/FaqSection.astro';
+import FinalCtaSection from '@/components/FinalCtaSection.astro';
+import SiteFooter from '@/components/SiteFooter.astro';
+import { getDictionary, routeMap } from '@/i18n';
+import { organizationJsonLd, personJsonLd } from '@/lib/structuredData';
+import type { Locale } from '@/config/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDictionary(locale);
+const { landing } = dict;
+const siteUrl = Astro.site?.toString() ?? 'https://www.cloudme.com.br/';
+const resumeHref = routeMap.resume[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={landing.meta.title}
+  description={landing.meta.description}
+  routeKey="home"
+  structuredData={[organizationJsonLd(siteUrl, locale), personJsonLd(siteUrl)]}
+>
+  <SiteHeader locale={locale} nav={landing.nav} ctaHref="#scheduling" />
+  <main id="main-content">
+    <HeroSection content={landing.hero} ctaPrimaryHref="#scheduling" ctaSecondaryHref="#solutions" />
+    <ProblemSection content={landing.problem} />
+    <ChallengeExplorer content={landing.explorer} />
+    <ServicesSection content={landing.services} />
+    <MethodSection content={landing.method} />
+    <ResponsibleAiSection content={landing.responsibleAi} />
+    <WhySection content={landing.why} />
+    <AboutSection content={landing.about} resumeHref={resumeHref} />
+    <FaqSection content={landing.faq} />
+    <FinalCtaSection locale={locale} content={landing.finalCta} schedulingContent={landing.scheduling} />
+  </main>
+  <SiteFooter locale={locale} content={landing.footer} nav={landing.nav} />
+</BaseLayout>

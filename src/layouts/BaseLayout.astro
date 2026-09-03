@@ -1,0 +1,76 @@
+---
+import '@/styles/global.css';
+import { brand } from '@/config/site';
+import type { Locale } from '@/config/site';
+import { routeMap } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  /** Chave em `routeMap` usada para montar as tags hreflang. */
+  routeKey: keyof typeof routeMap;
+  /** Estrutura JSON-LD adicional (Organization, Person, etc.). */
+  structuredData?: Record<string, unknown>[];
+  noIndex?: boolean;
+}
+
+const { locale, title, description, routeKey, structuredData = [], noIndex = false } = Astro.props;
+
+const canonicalPath = routeMap[routeKey][locale];
+const canonicalUrl = new URL(canonicalPath, Astro.site).toString();
+const ptUrl = new URL(routeMap[routeKey].pt, Astro.site).toString();
+const enUrl = new URL(routeMap[routeKey].en, Astro.site).toString();
+const ogLocale = locale === 'pt' ? 'pt_BR' : 'en_US';
+---
+
+<!doctype html>
+<html lang={locale === 'pt' ? 'pt-BR' : 'en'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="pt-BR" href={ptUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={ptUrl} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={`${brand.name} — ${brand.signature}`} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:image" content={new URL('/brand/logo-horizontal.svg', Astro.site).toString()} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL('/brand/logo-horizontal.svg', Astro.site).toString()} />
+
+    <meta name="theme-color" content="#0b3d91" />
+
+    {structuredData.map((entry) => (
+      <script type="application/ld+json" set:html={JSON.stringify(entry)} is:inline />
+    ))}
+
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">
+      {locale === 'pt' ? 'Pular para o conteúdo principal' : 'Skip to main content'}
+    </a>
+    <slot />
+    <script>
+      import '../scripts/enhance';
+    </script>
+  </body>
+</html>

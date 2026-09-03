@@ -1,0 +1,123 @@
+---
+import type { HeroContent } from '@/i18n/types';
+
+interface Props {
+  content: HeroContent;
+  ctaPrimaryHref: string;
+  ctaSecondaryHref: string;
+}
+
+const { content, ctaPrimaryHref, ctaSecondaryHref } = Astro.props;
+---
+
+<section class="hero section section--dark">
+  <div class="container hero__grid">
+    <div class="hero__copy reveal">
+      <p class="eyebrow">{content.eyebrow}</p>
+      <h1 class="hero__title">{content.title}</h1>
+      <p class="hero__description">{content.description}</p>
+      <div class="hero__actions">
+        <a class="cta-button cta-button--on-dark tap-target" href={ctaPrimaryHref}>{content.ctaPrimary}</a>
+        <a class="cta-button cta-button--ghost-on-dark tap-target" href={ctaSecondaryHref}>{content.ctaSecondary}</a>
+      </div>
+      <ul class="hero__capabilities">
+        {content.capabilities.map((capability) => (
+          <li>{capability}</li>
+        ))}
+      </ul>
+    </div>
+    <div class="hero__visual reveal" aria-hidden="true">
+      <svg viewBox="0 0 400 400" class="hero__network">
+        <g stroke="#4fd1e3" stroke-width="1" opacity="0.6">
+          <line x1="60" y1="90" x2="180" y2="60" />
+          <line x1="180" y1="60" x2="320" y2="110" />
+          <line x1="180" y1="60" x2="200" y2="200" />
+          <line x1="200" y1="200" x2="80" y2="260" />
+          <line x1="200" y1="200" x2="330" y2="250" />
+          <line x1="330" y1="250" x2="260" y2="340" />
+          <line x1="80" y1="260" x2="140" y2="350" />
+        </g>
+        <g fill="#4fd1e3">
+          <circle cx="60" cy="90" r="5" />
+          <circle cx="180" cy="60" r="7" />
+          <circle cx="320" cy="110" r="5" />
+          <circle cx="200" cy="200" r="8" />
+          <circle cx="80" cy="260" r="5" />
+          <circle cx="330" cy="250" r="5" />
+          <circle cx="260" cy="340" r="5" />
+          <circle cx="140" cy="350" r="4" />
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block-start: var(--space-6);
+  }
+
+  .hero__grid {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+
+  @media (min-width: 960px) {
+    .hero__grid {
+      grid-template-columns: 1.1fr 0.9fr;
+    }
+  }
+
+  .hero__title {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    margin-block: var(--space-2);
+    max-width: 22ch;
+  }
+
+  .hero__description {
+    max-width: 46ch;
+    color: var(--text-on-dark-muted);
+    font-size: 1.1rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-block-start: var(--space-4);
+  }
+
+  .hero__capabilities {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-3);
+    margin-block-start: var(--space-5);
+    padding-block-start: var(--space-3);
+    border-top: 1px solid rgba(244, 247, 251, 0.15);
+    font-size: 0.9rem;
+    color: var(--text-on-dark-muted);
+  }
+
+  .hero__capabilities li::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-cyan);
+    margin-inline-end: 0.5em;
+  }
+
+  .hero__visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero__network {
+    width: 100%;
+    max-width: 380px;
+    height: auto;
+  }
+</style>

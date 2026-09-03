@@ -1,0 +1,102 @@
+---
+import type { ExplorerContent } from '@/i18n/types';
+
+interface Props {
+  content: ExplorerContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="section section--alt explorer" id="explorer">
+  <div class="container">
+    <h2 class="section-title reveal">{content.title}</h2>
+
+    <div class="explorer__widget reveal" data-tabs>
+      <div class="explorer__tablist" role="tablist" aria-label={content.title}>
+        {content.tabs.map((tab, index) => (
+          <button
+            type="button"
+            role="tab"
+            id={`tab-${tab.id}`}
+            aria-controls={`panel-${tab.id}`}
+            aria-selected={index === 0 ? 'true' : 'false'}
+            tabindex={index === 0 ? 0 : -1}
+            class="explorer__tab"
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      {content.tabs.map((tab, index) => (
+        <div
+          role="tabpanel"
+          id={`panel-${tab.id}`}
+          aria-labelledby={`tab-${tab.id}`}
+          class="explorer__panel"
+          data-index={index}
+        >
+          <h3 class="explorer__panel-heading">{tab.label}</h3>
+          <p>{tab.description}</p>
+        </div>
+      ))}
+    </div>
+
+    <p class="explorer__disclaimer reveal">{content.disclaimer}</p>
+  </div>
+</section>
+
+<style>
+  .explorer__widget {
+    margin-block-start: var(--space-4);
+  }
+
+  .explorer__tablist {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    border-bottom: 1px solid rgba(10, 30, 70, 0.12);
+    padding-block-end: var(--space-1);
+  }
+
+  .explorer__tab {
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 1.1rem;
+    font-weight: 600;
+    color: var(--text-on-light-muted);
+  }
+
+  .explorer__tab[aria-selected='true'] {
+    background: var(--color-cloudme-blue);
+    color: var(--text-on-dark);
+  }
+
+  .explorer__panel {
+    padding-block: var(--space-4);
+    max-width: 60ch;
+    font-size: 1.05rem;
+    border-bottom: 1px solid rgba(10, 30, 70, 0.08);
+  }
+
+  .explorer__panel:last-child {
+    border-bottom: none;
+  }
+
+  .explorer__panel-heading {
+    font-size: 1rem;
+    margin-block-end: var(--space-1);
+  }
+
+  .js .explorer__panel-heading {
+    display: none;
+  }
+
+  .explorer__disclaimer {
+    margin-block-start: var(--space-3);
+    font-size: 0.9rem;
+    color: var(--text-on-light-muted);
+  }
+</style>

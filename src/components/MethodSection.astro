@@ -1,0 +1,103 @@
+---
+import type { MethodContent } from '@/i18n/types';
+
+interface Props {
+  content: MethodContent;
+}
+
+const { content } = Astro.props;
+---
+
+<section class="section section--dark" id="how-it-works">
+  <div class="container">
+    <h2 class="section-title reveal">{content.title}</h2>
+
+    <div class="method__track" data-method-track>
+      <div class="method__progress-rail" aria-hidden="true">
+        <div class="method__progress-bar" data-method-progress></div>
+      </div>
+      <ol class="method__list">
+        {content.steps.map((step) => (
+          <li class="method__step" data-method-step>
+            <span class="method__number" aria-hidden="true">{step.number}</span>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .method__track {
+    position: relative;
+    margin-block-start: var(--space-6);
+  }
+
+  .method__progress-rail {
+    position: absolute;
+    inset-inline-start: 1.1rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(244, 247, 251, 0.15);
+    display: none;
+  }
+
+  @media (min-width: 720px) {
+    .method__progress-rail {
+      display: block;
+    }
+  }
+
+  .method__progress-bar {
+    width: 100%;
+    height: calc(var(--progress, 0) * 100%);
+    background: var(--color-cyan);
+    transition: height var(--duration-slow) var(--ease-standard);
+  }
+
+  .method__list {
+    list-style: none;
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .method__step {
+    position: relative;
+    padding-inline-start: var(--space-6);
+  }
+
+  .method__number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--color-cyan);
+    width: 2.4rem;
+    height: 2.4rem;
+    border: 2px solid rgba(79, 209, 227, 0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-dark);
+    transition: border-color var(--duration-base) var(--ease-standard);
+  }
+
+  .method__step.is-active .method__number {
+    border-color: var(--color-cyan);
+  }
+
+  .method__step h3 {
+    font-size: 1.2rem;
+    margin-block-end: var(--space-1);
+  }
+
+  .method__step p {
+    color: var(--text-on-dark-muted);
+    max-width: 48ch;
+  }
+</style>

@@ -1,0 +1,268 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { getDictionary, routeMap } from '@/i18n';
+import { social, brand } from '@/config/site';
+import { personJsonLd } from '@/lib/structuredData';
+import type { Locale } from '@/config/site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDictionary(locale);
+const { resume } = dict;
+const siteUrl = Astro.site?.toString() ?? 'https://www.cloudme.com.br/';
+const homeHref = routeMap.home[locale];
+---
+
+<BaseLayout
+  locale={locale}
+  title={resume.meta.title}
+  description={resume.meta.description}
+  routeKey="resume"
+  structuredData={[personJsonLd(siteUrl)]}
+>
+  <header class="resume-header">
+    <div class="container resume-header__inner">
+      <a class="resume-header__back" href={homeHref}>&larr; {resume.backToSite}</a>
+      <img src="/brand/logo-compact.svg" width="120" height="34" alt={brand.name} loading="eager" />
+    </div>
+  </header>
+
+  <main id="main-content" class="resume">
+    <div class="container resume__grid">
+      <div class="resume__intro">
+        <p class="eyebrow">{resume.eyebrow}</p>
+        <h1>{resume.name}</h1>
+        <p class="resume__role">{resume.role}</p>
+        <div class="resume__actions">
+          <a class="cta-button cta-button--secondary tap-target" href={social.linkedin} target="_blank" rel="noopener noreferrer">
+            {resume.linkedinLabel}
+          </a>
+          <button type="button" class="cta-button cta-button--secondary tap-target" data-print-button>
+            {resume.printLabel}
+          </button>
+        </div>
+        <p class="resume__print-note">{resume.printNote}</p>
+      </div>
+
+      <section aria-labelledby="resume-summary-heading" class="resume__section">
+        <h2 id="resume-summary-heading" class="visually-hidden">Summary</h2>
+        {resume.summary.map((paragraph) => (
+          <p class="resume__paragraph">{paragraph}</p>
+        ))}
+      </section>
+
+      <section aria-labelledby="resume-experience-heading" class="resume__section">
+        <h2 id="resume-experience-heading">{resume.experienceTitle}</h2>
+        <p class="resume__paragraph resume__muted">{resume.experienceIntro}</p>
+        <ol class="resume__timeline">
+          {resume.experience.map((item) => (
+            <li>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section aria-labelledby="resume-skills-heading" class="resume__section">
+        <h2 id="resume-skills-heading">{resume.skillsTitle}</h2>
+        <ul class="resume__tags">
+          {resume.skills.map((skill) => (
+            <li>{skill}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section aria-labelledby="resume-highlights-heading" class="resume__section">
+        <h2 id="resume-highlights-heading">{resume.highlightsTitle}</h2>
+        <ul class="resume__highlights">
+          {resume.highlights.map((highlight) => (
+            <li>{highlight}</li>
+          ))}
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="resume-footer">
+    <div class="container">
+      <a href={homeHref}>&larr; {resume.backToSite}</a>
+    </div>
+  </footer>
+</BaseLayout>
+
+<style>
+  .resume-header {
+    border-bottom: 1px solid rgba(10, 30, 70, 0.1);
+  }
+
+  .resume-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-2);
+  }
+
+  .resume-header__back {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--color-cloudme-blue);
+  }
+
+  .resume {
+    padding-block: var(--space-6);
+  }
+
+  .resume__grid {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 52rem;
+  }
+
+  .resume__intro h1 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    margin-block: var(--space-1);
+  }
+
+  .resume__role {
+    color: var(--text-on-light-muted);
+    font-weight: 600;
+  }
+
+  .resume__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-block-start: var(--space-3);
+  }
+
+  .resume__print-note {
+    margin-block-start: var(--space-2);
+    font-size: 0.85rem;
+    color: var(--text-on-light-muted);
+    max-width: 48ch;
+  }
+
+  .resume__section h2 {
+    font-size: 1.35rem;
+    margin-block-end: var(--space-2);
+    color: var(--color-cloudme-blue);
+  }
+
+  .resume__paragraph {
+    margin-block-end: var(--space-2);
+    max-width: 68ch;
+  }
+
+  .resume__muted {
+    color: var(--text-on-light-muted);
+    font-size: 0.95rem;
+  }
+
+  .resume__timeline {
+    list-style: none;
+    display: grid;
+    gap: var(--space-3);
+    border-inline-start: 2px solid rgba(11, 61, 145, 0.2);
+  }
+
+  .resume__timeline li {
+    padding-inline-start: var(--space-3);
+  }
+
+  .resume__timeline h3 {
+    font-size: 1.05rem;
+    margin-block-end: 0.25rem;
+  }
+
+  .resume__timeline p {
+    color: var(--text-on-light-muted);
+    max-width: 60ch;
+  }
+
+  .resume__tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+  }
+
+  .resume__tags li {
+    background: var(--surface-light-alt);
+    border-radius: var(--radius-sm);
+    padding: 0.4rem 0.8rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .resume__highlights {
+    list-style: none;
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .resume__highlights li {
+    padding-inline-start: var(--space-3);
+    position: relative;
+  }
+
+  .resume__highlights li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--color-cyan);
+  }
+
+  .resume-footer {
+    border-top: 1px solid rgba(10, 30, 70, 0.1);
+    padding-block: var(--space-3);
+  }
+
+  .resume-footer a {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--color-cloudme-blue);
+  }
+
+  /* Stylesheet de impressão — pode ser salvo como PDF pelo navegador */
+  @media print {
+    .resume-header,
+    .resume-footer,
+    .resume__actions,
+    .resume__print-note,
+    .skip-link {
+      display: none !important;
+    }
+
+    body {
+      color: #000;
+      background: #fff;
+    }
+
+    .resume {
+      padding-block: 0;
+    }
+
+    a[href]::after {
+      content: ' (' attr(href) ')';
+      font-size: 0.75em;
+      color: #444;
+    }
+  }
+</style>
+
+<script is:inline>
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (target instanceof HTMLElement && target.closest('[data-print-button]')) {
+      window.print();
+    }
+  });
+</script>

@@ -1,0 +1,74 @@
+/**
+ * Design tokens — "Precisão Tecnológica"
+ *
+ * Paleta: azul profundo, azul CloudMe, ciano discreto, branco azulado e
+ * cinza frio. Mantida em variáveis CSS para reutilização consistente entre
+ * seções claras e escuras.
+ */
+:root {
+  /* Cores de marca */
+  --color-deep-blue: #061229;
+  --color-cloudme-blue: #0b3d91;
+  --color-cloudme-blue-strong: #123f8a;
+  --color-cyan: #4fd1e3;
+  --color-cyan-soft: #a8e9f0;
+  --color-bluish-white: #f4f7fb;
+  --color-cold-gray: #8a97ab;
+  --color-cold-gray-dark: #4a5568;
+
+  /* Superfícies */
+  --surface-light: #ffffff;
+  --surface-light-alt: var(--color-bluish-white);
+  --surface-dark: var(--color-deep-blue);
+  --surface-dark-alt: #0c1c3d;
+
+  /* Texto */
+  --text-on-light: #10192e;
+  --text-on-light-muted: var(--color-cold-gray-dark);
+  --text-on-dark: var(--color-bluish-white);
+  --text-on-dark-muted: #b7c2d6;
+
+  /* Feedback */
+  --focus-ring: var(--color-cyan);
+
+  /* Tipografia */
+  --font-sans:
+    'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-size-root: 100%;
+  --line-height-tight: 1.15;
+  --line-height-base: 1.6;
+
+  /* Espaçamento (escala 8pt) */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4.5rem;
+  --space-7: 6.5rem;
+  --space-8: 9rem;
+
+  /* Grid e largura */
+  --content-max-width: 72rem;
+  --content-padding-inline: clamp(1.25rem, 4vw, 3rem);
+
+  /* Raios e sombras */
+  --radius-sm: 0.5rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --shadow-soft: 0 20px 60px -30px rgba(6, 18, 41, 0.45);
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 180ms;
+  --duration-base: 420ms;
+  --duration-slow: 720ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-base: 0ms;
+    --duration-slow: 0ms;
+  }
+}
