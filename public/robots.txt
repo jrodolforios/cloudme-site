@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jrodolforios.github.io/cloudme-site/sitemap-index.xml
+Sitemap: https://www.cloudme.com.br/sitemap-index.xml

@@ -91,15 +91,13 @@ export const social = {
 /**
  * Prefixo de implantação do site.
  *
- * O site é publicado como GitHub Pages de projeto em
- * `https://jrodolforios.github.io/cloudme-site/`, portanto todos os caminhos
- * absolutos precisam do prefixo `/cloudme-site`. Ao migrar para um domínio
- * próprio, troque este valor por `''` (raiz) e ajuste `siteOrigin`.
+ * O domínio personalizado publica o site na raiz, portanto os caminhos
+ * absolutos não devem receber um prefixo de repositório.
  */
-export const basePath = '/cloudme-site';
+export const basePath = '';
 
 /** Origem pública usada para URLs canônicas, sitemap e Open Graph. */
-export const siteOrigin = 'https://jrodolforios.github.io';
+export const siteOrigin = 'https://www.cloudme.com.br';
 
 export const locales = ['pt', 'en'] as const;
 export type Locale = (typeof locales)[number];
