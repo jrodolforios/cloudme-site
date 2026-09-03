@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { routeMap } from '@/i18n';
+import { withBase } from '@/lib/paths';
 import { brand } from '@/config/site';
 import type { LegalContent } from '@/i18n/types';
 import type { Locale } from '@/config/site';
@@ -12,7 +13,7 @@ interface Props {
 }
 
 const { locale, content, routeKey } = Astro.props;
-const homeHref = routeMap.home[locale];
+const homeHref = withBase(routeMap.home[locale]);
 
 // Data de publicação real (data do build), exibida de forma transparente
 // em vez de uma data futura arbitrária.

@@ -14,6 +14,8 @@ import FinalCtaSection from '@/components/FinalCtaSection.astro';
 import SiteFooter from '@/components/SiteFooter.astro';
 import { getDictionary, routeMap } from '@/i18n';
 import { organizationJsonLd, personJsonLd } from '@/lib/structuredData';
+import { withBase } from '@/lib/paths';
+import { siteOrigin } from '@/config/site';
 import type { Locale } from '@/config/site';
 
 interface Props {
@@ -23,8 +25,8 @@ interface Props {
 const { locale } = Astro.props;
 const dict = getDictionary(locale);
 const { landing } = dict;
-const siteUrl = Astro.site?.toString() ?? 'https://www.cloudme.com.br/';
-const resumeHref = routeMap.resume[locale];
+const siteUrl = new URL(withBase('/'), Astro.site ?? siteOrigin).toString();
+const resumeHref = withBase(routeMap.resume[locale]);
 ---
 
 <BaseLayout

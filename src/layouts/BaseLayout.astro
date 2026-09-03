@@ -3,6 +3,7 @@ import '@/styles/global.css';
 import { brand } from '@/config/site';
 import type { Locale } from '@/config/site';
 import { routeMap } from '@/i18n';
+import { withBase } from '@/lib/paths';
 
 interface Props {
   locale: Locale;
@@ -17,10 +18,9 @@ interface Props {
 
 const { locale, title, description, routeKey, structuredData = [], noIndex = false } = Astro.props;
 
-const canonicalPath = routeMap[routeKey][locale];
-const canonicalUrl = new URL(canonicalPath, Astro.site).toString();
-const ptUrl = new URL(routeMap[routeKey].pt, Astro.site).toString();
-const enUrl = new URL(routeMap[routeKey].en, Astro.site).toString();
+const canonicalUrl = new URL(withBase(routeMap[routeKey][locale]), Astro.site).toString();
+const ptUrl = new URL(withBase(routeMap[routeKey].pt), Astro.site).toString();
+const enUrl = new URL(withBase(routeMap[routeKey].en), Astro.site).toString();
 const ogLocale = locale === 'pt' ? 'pt_BR' : 'en_US';
 ---
 
@@ -37,7 +37,7 @@ const ogLocale = locale === 'pt' ? 'pt_BR' : 'en_US';
     <link rel="alternate" hreflang="x-default" href={ptUrl} />
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -46,13 +46,13 @@ const ogLocale = locale === 'pt' ? 'pt_BR' : 'en_US';
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content={`${brand.name} — ${brand.signature}`} />
     <meta property="og:locale" content={ogLocale} />
-    <meta property="og:image" content={new URL('/brand/logo-horizontal.svg', Astro.site).toString()} />
+    <meta property="og:image" content={new URL(withBase('/brand/logo-horizontal.svg'), Astro.site).toString()} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL('/brand/logo-horizontal.svg', Astro.site).toString()} />
+    <meta name="twitter:image" content={new URL(withBase('/brand/logo-horizontal.svg'), Astro.site).toString()} />
 
     <meta name="theme-color" content="#0b3d91" />
 

@@ -4,6 +4,8 @@ Site institucional bilíngue (PT/EN) da CloudMe e currículo web interativo de
 Rodolfo Rios. Projeto estático, construído com [Astro](https://astro.build/)
 e TypeScript.
 
+> **Site publicado:** <https://jrodolforios.github.io/cloudme-site/>
+
 > **Marca:** CloudMe — por Rodolfo Rios
 > **Proposta:** "Inteligência artificial aplicada a desafios reais."
 
@@ -230,9 +232,12 @@ Todo o conteúdo textual vive em dois dicionários TypeScript tipados:
 - Dados estruturados JSON-LD `ProfessionalService` e `Person`
   (`src/lib/structuredData.ts`), com apenas propriedades reais — nenhum
   dado (avaliações, números, endereços) foi inventado.
-- **Domínio provisório**: `astro.config.mjs` usa
-  `https://www.cloudme.com.br` como `site` para gerar URLs canônicas e o
-  sitemap. Atualize esse valor quando o domínio final for definido.
+- **Origem e prefixo atuais**: o site é publicado como GitHub Pages de
+  projeto, então `siteOrigin` (`https://jrodolforios.github.io`) e
+  `basePath` (`/cloudme-site`) ficam em `src/config/site.ts` e alimentam
+  `site`/`base` em `astro.config.mjs`. Todos os links internos e assets
+  passam por `withBase()` (`src/lib/paths.ts`). Ao migrar para o domínio
+  final, troque `siteOrigin` e defina `basePath` como `''`.
 
 ## Testes, lint e build
 
@@ -249,18 +254,24 @@ desenvolvimento deste projeto.
 
 ## Estratégia de deploy
 
-O projeto gera um site 100% estático em `dist/` (`npm run build`),
-compatível com qualquer hospedagem de arquivos estáticos (ex.: Netlify,
-Vercel, Cloudflare Pages, GitHub Pages ou um bucket + CDN). Nenhum deploy
-foi realizado neste PR — a publicação e a configuração de DNS ficam a
-critério do proprietário do domínio.
+O site é publicado automaticamente no **GitHub Pages** em
+<https://jrodolforios.github.io/cloudme-site/>.
 
-Ao publicar:
+- O workflow `.github/workflows/deploy.yml` roda a cada `push` na branch
+  `main` e também sob demanda (**Actions → Deploy to GitHub Pages → Run
+  workflow**).
+- Ele executa `npm ci`, lint, typecheck, testes e `npm run build`, envia
+  `dist/` como artifact de Pages e faz o deploy com as actions oficiais
+  (`actions/configure-pages`, `actions/upload-pages-artifact`,
+  `actions/deploy-pages`).
 
-1. Ajuste `site` em `astro.config.mjs` para o domínio final.
-2. Rode `npm run build` e publique o conteúdo de `dist/`.
-3. Configure HTTPS e, se aplicável, redirecionamentos de `www` no provedor
-   escolhido.
+**Passo manual necessário (uma única vez):** em **Settings → Pages →
+Build and deployment → Source**, selecione **GitHub Actions**. Sem isso o
+deploy falha porque o Pages ainda não está habilitado no repositório.
+
+Para migrar para outra hospedagem ou domínio próprio, ajuste `siteOrigin`
+e `basePath` em `src/config/site.ts` (o build continua sendo 100% estático
+em `dist/`).
 
 ## Checklist de publicação
 
@@ -268,7 +279,8 @@ Ao publicar:
 - [ ] Substituir os SVGs de `public/brand/` pelos arquivos oficiais
       exportados do CorelDRAW (ver `public/brand/README.md`)
 - [ ] Substituir `rodolfo-placeholder.svg` por uma foto real tratada
-- [ ] Atualizar `site` em `astro.config.mjs` com o domínio final
+- [ ] Habilitar GitHub Pages com **Source: GitHub Actions** (Settings → Pages)
+- [ ] Atualizar `siteOrigin`/`basePath` em `src/config/site.ts` com o domínio final
 - [ ] Revisão jurídica da Política de Privacidade e dos Termos de Uso
 - [ ] Confirmar número de WhatsApp Business e mensagens pré-preenchidas
 - [ ] Rodar `npm run lint && npm run typecheck && npm test && npm run build`

@@ -1,8 +1,9 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getDictionary, routeMap } from '@/i18n';
-import { social, brand } from '@/config/site';
+import { social, brand, siteOrigin } from '@/config/site';
 import { personJsonLd } from '@/lib/structuredData';
+import { withBase } from '@/lib/paths';
 import type { Locale } from '@/config/site';
 
 interface Props {
@@ -12,8 +13,8 @@ interface Props {
 const { locale } = Astro.props;
 const dict = getDictionary(locale);
 const { resume } = dict;
-const siteUrl = Astro.site?.toString() ?? 'https://www.cloudme.com.br/';
-const homeHref = routeMap.home[locale];
+const siteUrl = new URL(withBase('/'), Astro.site ?? siteOrigin).toString();
+const homeHref = withBase(routeMap.home[locale]);
 ---
 
 <BaseLayout
@@ -26,7 +27,7 @@ const homeHref = routeMap.home[locale];
   <header class="resume-header">
     <div class="container resume-header__inner">
       <a class="resume-header__back" href={homeHref}>&larr; {resume.backToSite}</a>
-      <img src="/brand/logo-compact.svg" width="120" height="34" alt={brand.name} loading="eager" />
+      <img src={withBase('/brand/logo-compact.svg')} width="120" height="34" alt={brand.name} loading="eager" />
     </div>
   </header>
 

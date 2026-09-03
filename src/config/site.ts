@@ -88,6 +88,19 @@ export const social = {
   linkedin: 'https://www.linkedin.com/in/jose-rodolfo-campos-rios-168920a3/',
 } as const;
 
+/**
+ * Prefixo de implantação do site.
+ *
+ * O site é publicado como GitHub Pages de projeto em
+ * `https://jrodolforios.github.io/cloudme-site/`, portanto todos os caminhos
+ * absolutos precisam do prefixo `/cloudme-site`. Ao migrar para um domínio
+ * próprio, troque este valor por `''` (raiz) e ajuste `siteOrigin`.
+ */
+export const basePath = '/cloudme-site';
+
+/** Origem pública usada para URLs canônicas, sitemap e Open Graph. */
+export const siteOrigin = 'https://jrodolforios.github.io';
+
 export const locales = ['pt', 'en'] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'pt';
